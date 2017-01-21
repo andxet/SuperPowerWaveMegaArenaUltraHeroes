@@ -17,6 +17,7 @@ public class AttackManager : MonoBehaviour
     public GameObject guiContainer;
     bool isSequence = false;
     int numKeys;
+    private bool endGame = false;
 
     // Use this for initialization
     void Start()
@@ -79,6 +80,8 @@ public class AttackManager : MonoBehaviour
 
     public bool Attack(ControllerKeys key)
     {
+        if (endGame)
+            return false;
         if (sequence.Count == 0)
             return true;
         if (isSequence)
@@ -104,5 +107,12 @@ public class AttackManager : MonoBehaviour
             return sequence[0] == key;
     }
 
-
+    public void EndGame()
+    {
+        endGame = true;
+        foreach (GameObject obj in guiObjects)
+            Destroy(obj);
+        guiObjects.Clear();
+        guiContainer.SetActive(false);
+    }
 }
