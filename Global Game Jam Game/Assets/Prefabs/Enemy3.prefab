@@ -122,3 +122,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   enemyType: 2
+  pointsWhenDie: 100

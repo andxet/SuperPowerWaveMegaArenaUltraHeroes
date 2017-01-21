@@ -69,5 +69,6 @@ public class EnemyScript : MonoBehaviour
     {
         if (collision.gameObject.name == "House")
         GameManager.Instance.MonsterCollidedHouse();
+        Destroy(gameObject);
     }
 }
