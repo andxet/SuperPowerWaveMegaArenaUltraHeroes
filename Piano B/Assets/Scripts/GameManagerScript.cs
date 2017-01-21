@@ -210,6 +210,8 @@ public class GameManagerScript : Singleton<GameManagerScript>
         winnerText.text = message;
         endGamePanel.SetActive(true);
         countdownText.enabled = false;
+        Player1.GetComponent<AttackManager>().EndGame();
+        Player2.GetComponent<AttackManager>().EndGame();
     }
 
     public void Restart()
