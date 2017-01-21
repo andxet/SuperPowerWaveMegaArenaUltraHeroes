@@ -10,6 +10,7 @@ public class AttackManager : MonoBehaviour
 {
     List<ControllerKeys> sequence = new List<ControllerKeys>(); //Contains the current button to press or a sequence
     List<ControllerKeys> lastSequence;
+	ControllerKeys lastKey;
     [Tooltip("SQUARE, X, CIRCLE, TRIANGLE")]
     public List<GameObject> buttonImages = new List<GameObject>();
     List<GameObject> guiObjects = new List<GameObject>();
@@ -21,6 +22,7 @@ public class AttackManager : MonoBehaviour
     void Start()
     {
         numKeys = Enum.GetNames(typeof(ControllerKeys)).Length;
+		lastKey = (ControllerKeys)UnityEngine.Random.Range (0, numKeys);
     }
 
     // Update is called once per frame
@@ -33,7 +35,11 @@ public class AttackManager : MonoBehaviour
     {
         isSequence = false;
         sequence.Clear();
-        ControllerKeys newKey = (ControllerKeys)UnityEngine.Random.Range(0, numKeys);
+		ControllerKeys newKey;
+		do {
+			newKey = (ControllerKeys)UnityEngine.Random.Range (0, numKeys);
+		} while (newKey == lastKey);
+		lastKey = newKey;
         sequence.Add(newKey);
         foreach (GameObject obj in guiObjects)
             Destroy(obj);
