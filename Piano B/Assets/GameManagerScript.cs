@@ -28,20 +28,26 @@ public class GameManagerScript : MonoBehaviour {
 			phase = 2;
 		}
 
-		if (phase == 1) {
+		if (phase == 0) {
+			if (Input.GetKeyDown (KeyCode.Q)) {
+				WinPlayer2 ();
+			} else if (Input.GetKeyDown (KeyCode.P)) {
+				WinPlayer1 ();
+			}
+		} else if (phase == 1) {
 			Debug.Log (phase);
 			if (player1Started || Input.GetKeyDown (KeyCode.Q)) {
 				player1Started = true;
 				Vector3 s = Onda1.transform.localScale;
 				s.y += (ondaSpeed * Time.deltaTime);
 				Onda1.transform.localScale = s;
-			}
+			} 
 			if (player2Started || Input.GetKeyDown (KeyCode.P)) {
 				player2Started = true;
 				Vector3 s = Onda2.transform.localScale;
 				s.y -= (ondaSpeed * Time.deltaTime);
 				Onda2.transform.localScale = s;
-			}
+			} 
 		} else if (phase == 2) {
 			if (Input.GetKeyDown (KeyCode.Q)) {
 				Vector3 s = Onda1.transform.localScale;
@@ -61,13 +67,9 @@ public class GameManagerScript : MonoBehaviour {
 			}
 
 			if (Onda1.transform.localScale.y < 0) {
-				phase = 3;
-				winnerText.text = "Player 2 win!";
-				endGamePanel.SetActive (true);
+				WinPlayer2 ();
 			} else if (Onda2.transform.localScale.y > 0) {
-				phase = 3;
-				winnerText.text = "Player 1 win!";
-				endGamePanel.SetActive (true);
+				WinPlayer1 ();
 			}
 		}
 	}
@@ -80,6 +82,20 @@ public class GameManagerScript : MonoBehaviour {
 			yield return new WaitForSeconds(1);
 		} while (count > 0);
 		phase = 1;
+		countdownText.enabled = false;
+	}
+
+	private void WinPlayer1 () {
+		phase = 3;
+		winnerText.text = "Player 1 win!";
+		endGamePanel.SetActive (true);
+		countdownText.enabled = false;
+	}
+
+	private void WinPlayer2 () {
+		phase = 3;
+		winnerText.text = "Player 2 win!";
+		endGamePanel.SetActive (true);
 		countdownText.enabled = false;
 	}
 
