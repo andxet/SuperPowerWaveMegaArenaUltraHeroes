@@ -22,6 +22,8 @@ public class GameManagerScript : Singleton<GameManagerScript>
     private GamePhase phase = GamePhase.COUTNDOWN;
     private bool player1Started;
     private bool player2Started;
+    public int buttonChangeInterval = 3;
+
     void Start()
     {
         endGamePanel.SetActive(false);
@@ -78,13 +80,20 @@ public class GameManagerScript : Singleton<GameManagerScript>
 
             if (Onda1.transform.localScale.y < 0)
             {
-                Win("Player 2 Wins!!");
+                //Win("Player 2 Wins!!");
+                Player1.GetComponent<AttackManager>().newSequence(5);
+                Player2.GetComponent<AttackManager>().newSequence(5);
+                phase = GamePhase.FINAL_DUEL;
             }
             else if (Onda2.transform.localScale.y > 0)
             {
-                Win("Player 1 Wins!!");
+                //Win("Player 1 Wins!!");
+                Player1.GetComponent<AttackManager>().newSequence(5);
+                Player2.GetComponent<AttackManager>().newSequence(5);
+                phase = GamePhase.FINAL_DUEL;
             }
-        }
+        } 
+           
     }
 
     public void RegisterPlayer(GameObject go, PlayerPosition playerPosition)
@@ -100,16 +109,67 @@ public class GameManagerScript : Singleton<GameManagerScript>
         if (phase == GamePhase.LAUNCH)
         {
             phase = GamePhase.BATTLE;
-            Player1.GetComponent<AttackManager>().NewKey();
-            Player2.GetComponent<AttackManager>().NewKey();
+            //Player1.GetComponent<AttackManager>().NewKey();
+            //Player2.GetComponent<AttackManager>().NewKey();
+            RefreshButton();
         }
     }
 
-    internal void NotifyEndSequence(GameObject gameObject)
+    internal void NotifyEndSequence(PlayerPosition position)
     {
-        throw new NotImplementedException();
+        if (position == PlayerPosition.LEFT)
+        {
+            if (Onda1.transform.localScale.y < 0)
+            {
+                Vector3 s = Onda1.transform.localScale;
+                s.y += 1f;
+                Onda1.transform.localScale = s;
+                s = Onda2.transform.localScale;
+                s.y += 1f;
+                Onda2.transform.localScale = s;
+
+                phase = GamePhase.BATTLE;
+                Player1.GetComponent<AttackManager>().NewKey();
+                Player2.GetComponent<AttackManager>().NewKey();
+            }
+            else if (Onda2.transform.localScale.y > 0)
+            {
+                Win("Player 1 Wins!!");
+            }
+        }
+        else if (position == PlayerPosition.RIGHT)
+        {
+            if (Onda1.transform.localScale.y < 0)
+            {
+                Win("Player 2 Wins!!");
+            }
+            else if (Onda2.transform.localScale.y > 0)
+            {
+                Vector3 s = Onda2.transform.localScale;
+                s.y -= 1f;
+                Onda2.transform.localScale = s;
+                s = Onda1.transform.localScale;
+                s.y -= 1f;
+                Onda1.transform.localScale = s;
+
+                phase = GamePhase.BATTLE;
+                Player1.GetComponent<AttackManager>().NewKey();
+                Player2.GetComponent<AttackManager>().NewKey();
+            }
+        }
     }
 
+    internal void NotifyWrongSequence(PlayerPosition position)
+    {
+        if (position == PlayerPosition.LEFT)
+        {
+            NotifyEndSequence(PlayerPosition.RIGHT);
+        }
+        else if (position == PlayerPosition.RIGHT)
+        {
+            NotifyEndSequence(PlayerPosition.LEFT);
+        }
+    }
     IEnumerator Countdown()
     {
         int count = 3;
@@ -132,6 +192,16 @@ public class GameManagerScript : Singleton<GameManagerScript>
             wave.transform.localScale = s;
             yield return null;
         }
+    }
+
+    public void RefreshButton()
+    {
+        if(phase == GamePhase.BATTLE)
+        {
+            Player1.GetComponent<AttackManager>().NewKey();
+            Player2.GetComponent<AttackManager>().NewKey();
+        }
+        Invoke("RefreshButton", buttonChangeInterval);
     }
 
     private void Win(string message)

@@ -32,6 +32,11 @@ public class InputManager : MonoBehaviour
                     pressed = true;
                     player.Attack((ControllerKeys)i);
                 }
+            if (Input.GetAxis("Start") > 0.1)
+            {
+                Debug.Log("pressed start");            
+                GameManagerScript.Instance.Restart();
+            }
         }
         else
         {

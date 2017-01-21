@@ -9,6 +9,7 @@ public enum ControllerKeys { SQUARE, X, CIRCLE, TRIANGLE }
 public class AttackManager : MonoBehaviour
 {
     List<ControllerKeys> sequence = new List<ControllerKeys>(); //Contains the current button to press or a sequence
+    List<ControllerKeys> lastSequence;
     [Tooltip("SQUARE, X, CIRCLE, TRIANGLE")]
     public List<GameObject> buttonImages = new List<GameObject>();
     List<GameObject> guiObjects = new List<GameObject>();
@@ -39,15 +40,35 @@ public class AttackManager : MonoBehaviour
         guiObjects.Clear();
         GameObject button = Instantiate(buttonImages[(int)newKey]);
         button.transform.SetParent(guiContainer.transform);
-
+        button.transform.localScale = Vector3.one;
+        guiObjects.Add(button);
+        button.GetComponent<Animation>().Play();
     }
 
     public void newSequence(int numButtons = 5)
     {
-        isSequence = true;
-        sequence.Clear();
+        sequence = new List<ControllerKeys>();
         for (int i = 0; i < numButtons; i++)
             sequence.Add((ControllerKeys)UnityEngine.Random.Range(0, numKeys));
+        newSequence(sequence);
+    }
+
+    public void newSequence(List<ControllerKeys> sequence)
+    {
+        isSequence = true;
+        this.sequence = sequence;
+        lastSequence = new List<ControllerKeys>(sequence);
+        foreach (GameObject obj in guiObjects)
+            Destroy(obj);
+        guiObjects.Clear();
+        foreach (ControllerKeys key in sequence)
+        {
+            GameObject button = Instantiate(buttonImages[(int)key]);
+            button.transform.SetParent(guiContainer.transform);
+            button.transform.SetSiblingIndex(0);
+            button.transform.localScale = Vector3.one;
+            guiObjects.Add(button);
+        }
     }
 
     public bool Attack(ControllerKeys key)
@@ -59,14 +80,19 @@ public class AttackManager : MonoBehaviour
             if (sequence[0] == key)
             {
                 sequence.RemoveAt(0);
+                Destroy(guiObjects[0]);
+                guiObjects.RemoveAt(0);
                 if (sequence.Count == 0)
                 {
-                    GameManagerScript.Instance.NotifyEndSequence(gameObject);
+                    GameManagerScript.Instance.NotifyEndSequence(gameObject.GetComponent<Player>().position);
                 }
                 return true;
             }
             else
+            {
+                newSequence(lastSequence);
                 return false;
+            }
         }
         else
             return sequence[0] == key;
