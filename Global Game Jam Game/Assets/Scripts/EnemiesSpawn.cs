@@ -20,10 +20,11 @@ public class EnemiesSpawn : MonoBehaviour {
 			lastSpanwTime =  Time.time;
 			Quaternion q = transform.rotation;
 			transform.rotation = Quaternion.identity;
-			GameObject enemy = Instantiate (enemiesPrefabs [Random.Range (0, enemiesPrefabs.Length)]);
+            int typeChoose = Random.Range(0, enemiesPrefabs.Length);
+            GameObject enemy = Instantiate (enemiesPrefabs [typeChoose]);
 			enemy.transform.parent = transform;
-			float x = Random.Range (-2, 2);
-			enemy.transform.localPosition = new Vector3 (x, 1, 20);
+			//float x = Random.Range (-2, 2);
+			enemy.transform.localPosition = new Vector3 ((typeChoose - 2) * 0.5f, 1, 20);
 			transform.rotation = q;
 		}
 	}
