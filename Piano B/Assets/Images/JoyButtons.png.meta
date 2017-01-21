@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 38022b33fd91b7a40a6de04c654efb72
-timeCreated: 1485009051
+timeCreated: 1485028253
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,8 @@ TextureImporter:
     21300002: JoyButtons_Circle
     21300004: JoyButtons_Triangle
     21300006: JoyButtons_Cross
+    21300008: JoyButtons_R
+    21300010: JoyButtons_L
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -78,6 +80,22 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -128,6 +146,32 @@ TextureImporter:
         y: 31
         width: 60
         height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JoyButtons_R
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 402
+        width: 75
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 1}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JoyButtons_L
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 271
+        width: 74
+        height: 61
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

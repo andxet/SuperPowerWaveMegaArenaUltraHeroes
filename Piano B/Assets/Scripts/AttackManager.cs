@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum ControllerKeys { SQUARE, X, CIRCLE, TRIANGLE }
+public enum ControllerKeys { SQUARE, X, CIRCLE, TRIANGLE, R }
 
 public class AttackManager : MonoBehaviour
 {
     List<ControllerKeys> sequence = new List<ControllerKeys>(); //Contains the current button to press or a sequence
     List<ControllerKeys> lastSequence;
 	ControllerKeys lastKey;
-    [Tooltip("SQUARE, X, CIRCLE, TRIANGLE")]
+    [Tooltip("SQUARE, X, CIRCLE, TRIANGLE, R")]
     public List<GameObject> buttonImages = new List<GameObject>();
     List<GameObject> guiObjects = new List<GameObject>();
     public GameObject guiContainer;
