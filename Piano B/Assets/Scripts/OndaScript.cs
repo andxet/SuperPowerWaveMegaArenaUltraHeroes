@@ -17,8 +17,9 @@ public class OndaScript : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.tag == "Onda") {
-			collided = true;
-		}
+            GameManagerScript.Instance.WavesCollided();
+
+        }
 	}
 
 }
