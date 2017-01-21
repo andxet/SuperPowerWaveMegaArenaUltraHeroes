@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject GameOverPanel;
     public GameObject NewSpawnPanel;
     public Text GameStats;
+	public Text RechargeLabel;
     int spawnsEnabled = 1;
     public GameObject[] spawns = new GameObject[4];
     GameObject player;

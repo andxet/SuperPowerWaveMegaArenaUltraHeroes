@@ -34,24 +34,27 @@ public class EnemyScript : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    internal void Hit(EnemyType type)
+	internal bool Hit(EnemyType type)
     {
-        if (type == enemyType)
-        {
-            enabled = false;
-            GetComponent<Collider>().enabled = true;
-            GetComponent<Rigidbody>().isKinematic = false;
-            if (type == EnemyType.TYPE1)
-                GetComponent<Rigidbody>().AddExplosionForce(2000f, Vector3.zero, 1000, 10f);
-            else if (type == EnemyType.TYPE2)
-                GetComponent<Rigidbody>().AddForceAtPosition(Vector3.back * 300f, new Vector3(transform.position.x, 0, transform.position.z), ForceMode.Force);
-            else if(type == EnemyType.TYPE3)
-                GetComponent<Rigidbody>().AddExplosionForce(2000f, Vector3.zero, 1000, 10f);
-            else if (type == EnemyType.TYPE4)
-                GetComponent<Rigidbody>().AddForceAtPosition(Vector3.back * 300f, new Vector3(transform.position.x, 0, transform.position.z), ForceMode.Force);
-            GameManager.Instance.AddPoints(pointsWhenDie);
-            StartCoroutine(Vanish());
-        }
+		if (type == enemyType) {
+			enabled = false;
+			GetComponent<Collider> ().enabled = true;
+			GetComponent<Rigidbody> ().isKinematic = false;
+			if (type == EnemyType.TYPE1)
+				GetComponent<Rigidbody> ().AddExplosionForce (2000f, Vector3.zero, 1000, 10f);
+			else if (type == EnemyType.TYPE2)
+				GetComponent<Rigidbody> ().AddForceAtPosition (Vector3.back * 300f, new Vector3 (transform.position.x, 0, transform.position.z), ForceMode.Force);
+			else if (type == EnemyType.TYPE3)
+				GetComponent<Rigidbody> ().AddExplosionForce (2000f, Vector3.zero, 1000, 10f);
+				//StartCoroutine(Reduce());
+			else if (type == EnemyType.TYPE4)
+				GetComponent<Rigidbody> ().AddForceAtPosition (Vector3.back * 300f, new Vector3 (transform.position.x, 0, transform.position.z), ForceMode.Force);
+			GameManager.Instance.AddPoints (pointsWhenDie);
+			StartCoroutine (Vanish ());
+			return true;
+		} else {
+			return false;
+		}
     }
 
 
@@ -61,14 +64,24 @@ public class EnemyScript : MonoBehaviour
         Destroy(gameObject);
     }
 
+	IEnumerator Reduce()
+	{
+		float startTime = Time.time;
+		while (transform.localScale.x > 0.1f) {
+			transform.localScale = transform.localScale * 0.95f;
+			yield return 0;
+		}
+	}
+
     /*void OnCollisionEnter(Collision collision)
     {
         GameManager.Instance.MonsterCollidedHouse();
     }*/
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.name == "House")
-        GameManager.Instance.MonsterCollidedHouse();
-        Destroy(gameObject);
+		if (collision.gameObject.name == "House") {
+			GameManager.Instance.MonsterCollidedHouse ();
+			Destroy (gameObject);
+		}
     }
 }

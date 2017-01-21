@@ -120,6 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25d5fdd4b3d3524c80ae75165f0927e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2
   enemyType: 3
   pointsWhenDie: 100
