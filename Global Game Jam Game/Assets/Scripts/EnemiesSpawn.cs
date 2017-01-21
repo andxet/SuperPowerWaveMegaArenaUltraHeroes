@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemiesSpawn : MonoBehaviour {
 	public float spawnInterval;
 	public GameObject[] enemiesPrefabs;
+    public bool CasualPositionSpawn = false;
 
 	private float lastSpanwTime = 0;
 
@@ -23,8 +24,12 @@ public class EnemiesSpawn : MonoBehaviour {
             int typeChoose = Random.Range(0, enemiesPrefabs.Length);
             GameObject enemy = Instantiate (enemiesPrefabs [typeChoose]);
 			enemy.transform.parent = transform;
-			//float x = Random.Range (-2, 2);
-			enemy.transform.localPosition = new Vector3 ((typeChoose - 2) * 0.5f, 1, 20);
+            float x;
+            if (CasualPositionSpawn)
+                x = Random.Range(-2, 2);
+            else
+                x = (typeChoose - 2) * 0.5f;
+            enemy.transform.localPosition = new Vector3 (x, 1, 20);
 			transform.rotation = q;
 		}
 	}

@@ -14,8 +14,8 @@ public class HouseScript : MonoBehaviour {
 		
 	}
 
-    void OnCollisionEnter(Collision collision)
+    /*void OnCollisionEnter(Collision collision)
     {
         GameManager.Instance.MonsterCollidedHouse();
-    }
+    }*/
 }

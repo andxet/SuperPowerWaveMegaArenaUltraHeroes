@@ -9,6 +9,7 @@ public class EnemyScript : MonoBehaviour
 {
     public float speed;
     public EnemyType enemyType;
+    public int pointsWhenDie = 100;
 
 
     // Use this for initialization
@@ -48,6 +49,7 @@ public class EnemyScript : MonoBehaviour
                 GetComponent<Rigidbody>().AddExplosionForce(2000f, Vector3.zero, 1000, 10f);
             else if (type == EnemyType.TYPE4)
                 GetComponent<Rigidbody>().AddForceAtPosition(Vector3.back * 300f, new Vector3(transform.position.x, 0, transform.position.z), ForceMode.Force);
+            GameManager.Instance.AddPoints(pointsWhenDie);
             StartCoroutine(Vanish());
         }
     }
@@ -59,4 +61,13 @@ public class EnemyScript : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /*void OnCollisionEnter(Collision collision)
+    {
+        GameManager.Instance.MonsterCollidedHouse();
+    }*/
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.name == "House")
+        GameManager.Instance.MonsterCollidedHouse();
+    }
 }
