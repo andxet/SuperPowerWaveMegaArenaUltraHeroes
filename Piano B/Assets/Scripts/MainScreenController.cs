@@ -12,11 +12,17 @@ public class MainScreenController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetAxis("Start") > 0.1)
+		{
+			Debug.Log("pressed start");            
+			StartGame ();
+		}
 	}
 
     public void StartGame()
     {
-        SceneManager.LoadScene("CharacterSelectionScreen");
+		MultiMatchController.NewGame ();
+        SceneManager.LoadScene("Stage");
     }
+		
 }

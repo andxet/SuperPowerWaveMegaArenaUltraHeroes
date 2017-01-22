@@ -15,6 +15,7 @@ public class AttackManager : MonoBehaviour
     public List<GameObject> buttonImages = new List<GameObject>();
     List<GameObject> guiObjects = new List<GameObject>();
     public GameObject guiContainer;
+	public GameObject activeButtonBackground;
     bool isSequence = false;
     int numKeys;
     private bool endGame = false;
@@ -32,13 +33,28 @@ public class AttackManager : MonoBehaviour
 
     }
 
-    public void NewKey()
+	public void Disable() {
+		activeButtonBackground.SetActive (false);
+	}
+
+	public void NewEmptyKey()
+	{
+		activeButtonBackground.SetActive (true);
+		isSequence = false;
+		sequence.Clear();
+		foreach (GameObject obj in guiObjects)
+			Destroy(obj);
+		guiObjects.Clear();
+	}
+
+	public void NewKey(bool excludeStick = false)
     {
+		activeButtonBackground.SetActive (true);
         isSequence = false;
         sequence.Clear();
 		ControllerKeys newKey;
 		do {
-			newKey = (ControllerKeys)UnityEngine.Random.Range (0, numKeys);
+			newKey = (ControllerKeys)UnityEngine.Random.Range (0, excludeStick ? numKeys - 1 : numKeys);
 		} while (newKey == lastKey);
 		lastKey = newKey;
         sequence.Add(newKey);
@@ -52,11 +68,12 @@ public class AttackManager : MonoBehaviour
         button.GetComponent<Animation>().Play();
     }
 
-    public void newSequence(int numButtons = 5)
+	public void newSequence(int numButtons, bool excludeStick = true)
     {
+		activeButtonBackground.SetActive (true);
         sequence = new List<ControllerKeys>();
         for (int i = 0; i < numButtons; i++)
-            sequence.Add((ControllerKeys)UnityEngine.Random.Range(0, numKeys));
+			sequence.Add((ControllerKeys)UnityEngine.Random.Range(0, excludeStick ? numKeys - 1 : numKeys));
         newSequence(sequence);
     }
 
@@ -114,5 +131,6 @@ public class AttackManager : MonoBehaviour
             Destroy(obj);
         guiObjects.Clear();
         guiContainer.SetActive(false);
+		activeButtonBackground.SetActive (false);
     }
 }

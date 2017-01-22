@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class MultiMatchController : MonoBehaviour
 {
-    public int Player1Wins, Player2Wins = 0;
+    public static int Player1Wins, Player2Wins = 0;
+	public static int round = 0;
 
     // Use this for initialization
+	/*
     void Start()
     {
         DontDestroyOnLoad(this);
     }
+    */
 
-    bool Win(PlayerPosition player)
+	public static void NewGame() {
+		round = 0;
+		Player1Wins = 0;
+		Player2Wins = 0;
+	}
+
+    public static bool Win(PlayerPosition player)
     {
         if (player == PlayerPosition.LEFT)
             Player1Wins++;

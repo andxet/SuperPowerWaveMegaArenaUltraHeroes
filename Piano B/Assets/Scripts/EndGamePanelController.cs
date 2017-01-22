@@ -23,7 +23,7 @@ public class EndGamePanelController : MonoBehaviour
         Background1 = Background2;
         Background2 = Background3;
         Invoke("UpdateMessage", messageVelocity);
-        Invoke("CloseMe", ShowTime);
+        //Invoke("CloseMe", ShowTime);
     }
     
     // Update is called once per frame
