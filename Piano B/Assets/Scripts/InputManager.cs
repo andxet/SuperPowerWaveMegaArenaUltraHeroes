@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -35,10 +36,13 @@ public class InputManager : MonoBehaviour
                 }
 			if (CheckStickRotation ())
 				player.Attack (ControllerKeys.R);
-            if (Input.GetAxis("Start") > 0.1)
+            if (GameManagerScript.Instance.GetPhase() == GamePhase.END && Input.GetAxis("Start") > 0.1)
             {
-                Debug.Log("pressed start");            
-                GameManagerScript.Instance.Restart();
+                Debug.Log("pressed start");
+                if (MultiMatchController.HasWin() == null)
+                    GameManagerScript.Instance.Restart();
+                else
+                    SceneManager.LoadScene("MainScreen");
             }
         }
         else

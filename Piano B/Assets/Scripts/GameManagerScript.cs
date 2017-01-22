@@ -19,12 +19,18 @@ public class GameManagerScript : Singleton<GameManagerScript>
     public GameObject Player2;
     public GameObject CollisionFX;
     public GameObject BlastFX;
+
+
+    [Tooltip("In reverse order!!! 0->3, 1->2, 2->1")]
+    public List<Sprite> CountdownImages = new List<Sprite>();
+    public Image countdownImage;
+
+    public List<Sprite> WinnerNamesImage = new List<Sprite>();
+    public Image winnerNameImage;
+
     public CharacterUIController Player1UI;
     public CharacterUIController Player2UI;
 
-
-    public Text countdownText;
-    public Text winnerText;
     public GameObject[] bkgPlanes;
 	public AudioSource audioSource;
 	public AudioSource waveAudioSource;
@@ -46,6 +52,12 @@ public class GameManagerScript : Singleton<GameManagerScript>
     public int buttonChangeInterval = 3;
 
     private Vector3 wave1TargetPos;
+
+    internal GamePhase GetPhase()
+    {
+        return phase;
+    }
+
     private Vector3 wave2TargetPos;
 
     private bool player1FalseStart;
@@ -59,12 +71,14 @@ public class GameManagerScript : Singleton<GameManagerScript>
         endGamePanel.SetActive(false);
         StartCoroutine(Countdown());
         CollisionFX.SetActive(false);
-		for (int i = 0; i < bkgPlanes.Length; i++) {
-			if (i == MultiMatchController.round % 2)
-				bkgPlanes[i].SetActive (true);
-			else
-				bkgPlanes[i].SetActive (false);
-		}
+        for (int i = 0; i < bkgPlanes.Length; i++)
+        {
+            if (i == MultiMatchController.round % 2)
+                bkgPlanes[i].SetActive(true);
+            else
+                bkgPlanes[i].SetActive(false);
+        }
+        winnerNameImage.gameObject.SetActive(false);
     }
 
     void Update()
@@ -295,15 +309,15 @@ public class GameManagerScript : Singleton<GameManagerScript>
     }
     IEnumerator Countdown()
     {
-        int count = 3;
-        do
+        audioSource.PlayOneShot(countDownAudio);
+        foreach (Sprite img in CountdownImages)
         {
-            countdownText.text = count.ToString();
-            count--;
+            countdownImage.sprite = img;
             yield return new WaitForSeconds(1);
-        } while (count > 0);
+        }
+
         phase = GamePhase.LAUNCH;
-        countdownText.enabled = false;
+        countdownImage.enabled = false;
         if (player1FalseStart && !player2FalseStart)
         {
             Player2.GetComponent<AttackManager>().NewKey(true);
@@ -386,7 +400,7 @@ public class GameManagerScript : Singleton<GameManagerScript>
         phase = GamePhase.END;
         //winnerText.text = message;
         endGamePanel.SetActive(true);
-        countdownText.enabled = false;
+        countdownImage.enabled = false;
         Player1.GetComponent<AttackManager>().EndGame();
         Player2.GetComponent<AttackManager>().EndGame();
         endController.gameObject.SetActive(true);
@@ -410,10 +424,20 @@ public class GameManagerScript : Singleton<GameManagerScript>
         MultiMatchController.Win(position);
         Player1UI.Refresh();
         Player2UI.Refresh();
-		waveAudioSource.Stop ();
+        {
+            PlayerPosition? winner = MultiMatchController.HasWin();
+            if (winner != null)
+            {
+                winnerNameImage.gameObject.SetActive(true);
+                if (winner == PlayerPosition.LEFT)
+                    winnerNameImage.sprite = WinnerNamesImage[0];
+                else
+                    winnerNameImage.sprite = WinnerNamesImage[1];
+            }
+        }
     }
 
-	public void Restart()
+    public void Restart()
     {
 		PlayPio ();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
