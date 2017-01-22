@@ -309,6 +309,7 @@ public class GameManagerScript : Singleton<GameManagerScript>
     }
     IEnumerator Countdown()
     {
+        audioSource.PlayOneShot(countDownAudio);
         foreach (Sprite img in CountdownImages)
         {
             countdownImage.sprite = img;
