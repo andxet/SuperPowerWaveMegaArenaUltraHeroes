@@ -23,6 +23,7 @@ public class MultiMatchController : MonoBehaviour
 
     public static bool Win(PlayerPosition player)
     {
+		round++;
         if (player == PlayerPosition.LEFT)
             Player1Wins++;
         else

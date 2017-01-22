@@ -46,6 +46,12 @@ public class GameManagerScript : Singleton<GameManagerScript>
         endGamePanel.SetActive(false);
         StartCoroutine(Countdown());
         CollisionFX.SetActive(false);
+		for (int i = 0; i < bkgPlanes.Length; i++) {
+			if (i == MultiMatchController.round % 2)
+				bkgPlanes[i].SetActive (true);
+			else
+				bkgPlanes[i].SetActive (false);
+		}
     }
 
     void Update()
