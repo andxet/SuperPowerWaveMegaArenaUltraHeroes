@@ -16,6 +16,7 @@ public class GameManagerScript : Singleton<GameManagerScript>
     public GameObject endGamePanel;
     public GameObject Player1;
     public GameObject Player2;
+    public GameObject CollisionFX;
     public Text countdownText;
     public Text winnerText;
 
@@ -28,6 +29,7 @@ public class GameManagerScript : Singleton<GameManagerScript>
     {
         endGamePanel.SetActive(false);
         StartCoroutine(Countdown());
+        CollisionFX.SetActive(false);
     }
 
     internal void Attack(PlayerPosition position)
@@ -49,14 +51,14 @@ public class GameManagerScript : Singleton<GameManagerScript>
             if (!player1Started && position == PlayerPosition.LEFT)
             {
                 player1Started = true;
-				Onda1.transform.GetChild (0).gameObject.SetActive (true);
-				StartCoroutine(LaunchWave(Onda1, ondaSpeed, PlayerPosition.LEFT));
+                Onda1.transform.GetChild(0).gameObject.SetActive(true);
+                StartCoroutine(LaunchWave(Onda1, ondaSpeed, PlayerPosition.LEFT));
             }
             if (!player2Started && position == PlayerPosition.RIGHT)
             {
                 player2Started = true;
-				Onda2.transform.GetChild (0).gameObject.SetActive (true);
-				StartCoroutine(LaunchWave(Onda2, ondaSpeed, PlayerPosition.RIGHT));
+                Onda2.transform.GetChild(0).gameObject.SetActive(true);
+                StartCoroutine(LaunchWave(Onda2, ondaSpeed, PlayerPosition.RIGHT));
             }
         }
         else if (phase == GamePhase.BATTLE)
@@ -65,43 +67,43 @@ public class GameManagerScript : Singleton<GameManagerScript>
             {
                 Vector3 s = Onda1.transform.position;
                 s.x += 0.2f;
-				Onda1.transform.position = s;
-				s = Onda2.transform.position;
+                Onda1.transform.position = s;
+                s = Onda2.transform.position;
                 s.x += 0.2f;
-				Onda2.transform.position = s;
+                Onda2.transform.position = s;
 
-				UpdateWaveFX(Onda1, false);
-				UpdateWaveFX(Onda2, false);
+                UpdateWaveFX(Onda1, false);
+                UpdateWaveFX(Onda2, false);
             }
             if (position == PlayerPosition.RIGHT)
             {
-				Vector3 s = Onda2.transform.position;
+                Vector3 s = Onda2.transform.position;
                 s.x -= 0.2f;
-				Onda2.transform.position = s;
-				s = Onda1.transform.position;
+                Onda2.transform.position = s;
+                s = Onda1.transform.position;
                 s.x -= 0.2f;
-				Onda1.transform.position = s;
+                Onda1.transform.position = s;
 
-				UpdateWaveFX(Onda1, false);
-				UpdateWaveFX(Onda2, false);
+                UpdateWaveFX(Onda1, false);
+                UpdateWaveFX(Onda2, false);
             }
 
-			if (IsPlayer1Hit())
+            if (IsPlayer1Hit())
             {
                 //Win("Player 2 Wins!!");
                 Player1.GetComponent<AttackManager>().newSequence(5);
                 Player2.GetComponent<AttackManager>().newSequence(5);
                 phase = GamePhase.FINAL_DUEL;
             }
-			else if (IsPlayer2Hit())
+            else if (IsPlayer2Hit())
             {
                 //Win("Player 1 Wins!!");
                 Player1.GetComponent<AttackManager>().newSequence(5);
                 Player2.GetComponent<AttackManager>().newSequence(5);
                 phase = GamePhase.FINAL_DUEL;
             }
-        } 
-           
+        }
+
     }
 
     public void RegisterPlayer(GameObject go, PlayerPosition playerPosition)
@@ -120,59 +122,62 @@ public class GameManagerScript : Singleton<GameManagerScript>
             //Player1.GetComponent<AttackManager>().NewKey();
             //Player2.GetComponent<AttackManager>().NewKey();
             RefreshButton();
+            CollisionFX.SetActive(true);
         }
     }
 
-	private bool IsPlayer1Hit() {
-		return Onda1.transform.localPosition.y > 0;
-	}
+    private bool IsPlayer1Hit()
+    {
+        return Onda1.transform.localPosition.y > 0;
+    }
 
-	private bool IsPlayer2Hit() {
-		return Onda2.transform.localPosition.y > 0;
-	}
+    private bool IsPlayer2Hit()
+    {
+        return Onda2.transform.localPosition.y > 0;
+    }
 
     internal void NotifyEndSequence(PlayerPosition position)
     {
         if (position == PlayerPosition.LEFT)
         {
-			if (IsPlayer1Hit())
+            if (IsPlayer1Hit())
             {
                 Vector3 s = Onda1.transform.position;
                 s.x += 1f;
-				Onda1.transform.position = s;
-				s = Onda2.transform.position;
+                Onda1.transform.position = s;
+                s = Onda2.transform.position;
                 s.x += 1f;
-				Onda2.transform.position = s;
+                Onda2.transform.position = s;
 
-				UpdateWaveFX(Onda1, false);
-				UpdateWaveFX(Onda2, false);
+                UpdateWaveFX(Onda1, false);
+                UpdateWaveFX(Onda2, false);
 
                 phase = GamePhase.BATTLE;
                 Player1.GetComponent<AttackManager>().NewKey();
                 Player2.GetComponent<AttackManager>().NewKey();
             }
-			else if (IsPlayer2Hit())
+            else if (IsPlayer2Hit())
             {
                 Win("Player 1 Wins!!");
             }
         }
         else if (position == PlayerPosition.RIGHT)
         {
-			if (IsPlayer1Hit())
+            if (IsPlayer1Hit())
             {
                 Win("Player 2 Wins!!");
             }
-			else if (IsPlayer2Hit())
+            else if (IsPlayer2Hit())
             {
-				Vector3 s = Onda2.transform.position;
+                Vector3 s = Onda2.transform.position;
                 s.x -= 1f;
-				Onda2.transform.position = s;
-				s = Onda1.transform.position;
+                Onda2.transform.position = s;
+                s = Onda1.transform.position;
                 s.x -= 1f;
-				Onda1.transform.position = s;
+                Onda1.transform.position = s;
 
-				UpdateWaveFX(Onda1, false);
-				UpdateWaveFX(Onda2, false);
+                UpdateWaveFX(Onda1, false);
+                UpdateWaveFX(Onda2, false);
 
                 phase = GamePhase.BATTLE;
                 Player1.GetComponent<AttackManager>().NewKey();
@@ -205,41 +210,45 @@ public class GameManagerScript : Singleton<GameManagerScript>
         countdownText.enabled = false;
     }
 
-	IEnumerator LaunchWave(GameObject wave, float waveSpeed, PlayerPosition position)
+    IEnumerator LaunchWave(GameObject wave, float waveSpeed, PlayerPosition position)
     {
-		GameObject fx;
-		if (position == PlayerPosition.LEFT) {
-			fx = Onda1.transform.GetChild (0).gameObject;
-		} else {
-			fx = Onda2.transform.GetChild (0).gameObject;
-		}
+        GameObject fx;
+        if (position == PlayerPosition.LEFT)
+        {
+            fx = Onda1.transform.GetChild(0).gameObject;
+        }
+        else
+        {
+            fx = Onda2.transform.GetChild(0).gameObject;
+        }
 
-		fx.SetActive (true);
+        fx.SetActive(true);
         while (phase == GamePhase.LAUNCH)
         {
-			Vector3 s = wave.transform.localPosition;
-			s.y += (waveSpeed * Time.deltaTime * -1);
-			wave.transform.localPosition = s;
-			UpdateWaveFX(wave, true);
+            Vector3 s = wave.transform.localPosition;
+            s.y += (waveSpeed * Time.deltaTime * -1);
+            wave.transform.localPosition = s;
+            UpdateWaveFX(wave, true);
             yield return null;
         }
-		UpdateWaveFX(wave, false);
+        UpdateWaveFX(wave, false);
     }
 
-	private void UpdateWaveFX(GameObject wave, bool launch) {
-		GameObject fx = wave.transform.GetChild (0).gameObject;
-		ParticleSystem.MainModule fx_mm = fx.GetComponent<ParticleSystem> ().main;
-		Vector3 p = wave.transform.localPosition;
-		if (launch) 
-			fx_mm.startSpeedMultiplier = 1f + (-p.y * (5.5f - 1f) / 13f);
-		else
-			fx_mm.startSpeedMultiplier = -p.y * (6f / 13f);
-		Debug.Log ("UpdateWaveFX - p.y= " + p.y + " speed= " + fx_mm.startSpeedMultiplier);
-	}
+    private void UpdateWaveFX(GameObject wave, bool launch)
+    {
+        GameObject fx = wave.transform.GetChild(0).gameObject;
+        ParticleSystem.MainModule fx_mm = fx.GetComponent<ParticleSystem>().main;
+        Vector3 p = wave.transform.localPosition;
+        if (launch)
+            fx_mm.startSpeedMultiplier = 1f + (-p.y * (5.5f - 1f) / 13f);
+        else
+            fx_mm.startSpeedMultiplier = -p.y * (6f / 13f);
+        Debug.Log("UpdateWaveFX - p.y= " + p.y + " speed= " + fx_mm.startSpeedMultiplier);
+    }
 
     public void RefreshButton()
     {
-        if(phase == GamePhase.BATTLE)
+        if (phase == GamePhase.BATTLE)
         {
             Player1.GetComponent<AttackManager>().NewKey();
             Player2.GetComponent<AttackManager>().NewKey();
