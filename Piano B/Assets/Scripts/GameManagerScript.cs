@@ -12,6 +12,7 @@ public class GameManagerScript : Singleton<GameManagerScript>
     public GameObject Onda1;
     public GameObject Onda2;
     public float ondaSpeed;
+    public EndGamePanelController endController;
 
     public GameObject endGamePanel;
     public GameObject Player1;
@@ -158,6 +159,7 @@ public class GameManagerScript : Singleton<GameManagerScript>
             }
             else if (IsPlayer2Hit())
             {
+                endController.Init(PlayerPosition.RIGHT);
                 Win("Player 1 Wins!!");
             }
         }
@@ -165,6 +167,7 @@ public class GameManagerScript : Singleton<GameManagerScript>
         {
             if (IsPlayer1Hit())
             {
+                endController.Init(PlayerPosition.LEFT);
                 Win("Player 2 Wins!!");
             }
             else if (IsPlayer2Hit())
@@ -264,6 +267,7 @@ public class GameManagerScript : Singleton<GameManagerScript>
         countdownText.enabled = false;
         Player1.GetComponent<AttackManager>().EndGame();
         Player2.GetComponent<AttackManager>().EndGame();
+        endController.gameObject.SetActive(true);
     }
 
     public void Restart()
