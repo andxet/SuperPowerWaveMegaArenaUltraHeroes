@@ -19,9 +19,12 @@ public class EndGamePanelController : MonoBehaviour
     {
         bars.Add(Background1);
         bars.Add(Background2);
-        Image Background3 = Background1;
-        Background1 = Background2;
-        Background2 = Background3;
+        if(direction < 0)
+        {
+            Image Background3 = Background1;
+            Background1 = Background2;
+            Background2 = Background3;
+        }
         Invoke("UpdateMessage", messageVelocity);
         //Invoke("CloseMe", ShowTime);
     }
@@ -100,7 +103,7 @@ public class EndGamePanelController : MonoBehaviour
             Background1 = Background2;
             Background2 = Background3;
         }
-        else
+        else if(loosePlayer == PlayerPosition.RIGHT) 
         {
             direction = 1;
         }        
