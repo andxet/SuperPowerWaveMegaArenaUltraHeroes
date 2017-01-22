@@ -5,22 +5,31 @@ As you always dreamed, now you and your friends can fight with your childhood he
 ### Team *Disorganized*:
 
 Programmer
+
 Andrea Peretti 
+
 Davide Cavagnuolo
 
+
 Real Time Graphics
+
 Oscar Grimaldi
+
 Lara Fausone
 
 Game Design
+
 Elisa Cantamessa
 
 3D Artist
+
 Enrico Negro
 
 
 Concept 2D 3D Artist
+
 Erik Kuli
+
 Riccardo Pasquali
 
 [Global game jam site link](http://globalgamejam.org/2017/games/super-powerwave-mega-arena-ultra-heroes-extreme-edition)
