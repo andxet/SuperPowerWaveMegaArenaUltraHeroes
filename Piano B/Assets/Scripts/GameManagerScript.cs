@@ -350,10 +350,12 @@ public class GameManagerScript : Singleton<GameManagerScript>
         {
             Player1.GetComponent<AttackManager>().NewEmptyKey();
             fx = Onda1.transform.GetChild(0).gameObject;
+			Player1.GetComponent<Animator>().SetFloat("char", 1f);
             Player1.GetComponent<Animator>().SetBool("attack", true);
         }
         else
         {
+			Player2.GetComponent<Animator>().SetFloat("char", 0f);
             Player2.GetComponent<AttackManager>().NewEmptyKey();
             fx = Onda2.transform.GetChild(0).gameObject;
             Player2.GetComponent<Animator>().SetBool("attack", true);
