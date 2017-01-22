@@ -33,4 +33,14 @@ public class MultiMatchController : MonoBehaviour
         else
             return false;
     }
+
+    public static PlayerPosition? HasWin()
+    {
+        if (Player1Wins >= 2)
+            return PlayerPosition.LEFT;
+        else if (Player2Wins >= 2)
+            return PlayerPosition.RIGHT;
+        else
+            return null;
+    }
 }
