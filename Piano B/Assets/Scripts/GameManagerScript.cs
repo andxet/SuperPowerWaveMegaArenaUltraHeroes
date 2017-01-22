@@ -26,6 +26,19 @@ public class GameManagerScript : Singleton<GameManagerScript>
     public Text countdownText;
     public Text winnerText;
     public GameObject[] bkgPlanes;
+	public AudioSource audioSource;
+	public AudioSource waveAudioSource;
+	public AudioClip victoryAudio;
+	public AudioClip countDownAudio;
+	public AudioClip enter1Audio;
+	public AudioClip enter2Audio;
+	public AudioClip die1Audio;
+	public AudioClip die2Audio;
+	public AudioClip waveAudio;
+	public AudioClip pioAudio;
+	public AudioClip win1Audio;
+	public AudioClip win2Audio;
+	public AudioClip bkgAudio;
 
     private GamePhase phase = GamePhase.COUTNDOWN;
     private bool player1Started;
@@ -114,11 +127,15 @@ public class GameManagerScript : Singleton<GameManagerScript>
             {
                 player1Started = true;
                 StartCoroutine(LaunchWave(Onda1, ondaSpeed, PlayerPosition.LEFT));
+				if (!waveAudioSource.isPlaying)
+					waveAudioSource.Play ();
             }
             if (!player2Started && position == PlayerPosition.RIGHT)
             {
                 player2Started = true;
                 StartCoroutine(LaunchWave(Onda2, ondaSpeed, PlayerPosition.RIGHT));
+				if (!waveAudioSource.isPlaying)
+					waveAudioSource.Play ();
             }
         }
         else if (phase == GamePhase.BATTLE)
@@ -378,22 +395,32 @@ public class GameManagerScript : Singleton<GameManagerScript>
             BlastFX.transform.position = Player2.transform.position;
             Onda2.transform.GetChild(0).gameObject.SetActive(false);
             Player2.GetComponent<Animator>().SetBool("death", true);
+			audioSource.PlayOneShot (die2Audio);
+			audioSource.PlayOneShot (win1Audio);
         }
         else
         {
             BlastFX.transform.position = Player1.transform.position;
             Onda1.transform.GetChild(0).gameObject.SetActive(false);
             Player1.GetComponent<Animator>().SetBool("death", true);
+			audioSource.PlayOneShot (die1Audio);
+			audioSource.PlayOneShot (win2Audio);
         }
         BlastFX.SetActive(true);
         MultiMatchController.Win(position);
         Player1UI.Refresh();
         Player2UI.Refresh();
+		waveAudioSource.Stop ();
     }
 
-public void Restart()
+	public void Restart()
     {
+		PlayPio ();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+	public void PlayPio() {
+		audioSource.PlayOneShot (pioAudio);
+	}
 
 }
