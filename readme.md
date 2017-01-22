@@ -4,23 +4,23 @@
 As you always dreamed, now you and your friends can fight with your childhood heroes using the Energy Wave, just with a tap. During the game you will be challenged with different stage and difficulties.
 ### Team *Disorganized*:
 
-Programmer
+**Programmer**
 Andrea Peretti 
 Davide Cavagnuolo
 
 
-Real Time Graphics
+**Real Time Graphics**
 Oscar Grimaldi
 Lara Fausone
 
-Game Design
+**Game Design**
 Elisa Cantamessa
 
-3D Artist
+**3D Artist**
 Enrico Negro
 
 
-Concept 2D 3D Artist
+**Concept 2D 3D Artist**
 Erik Kuli
 Riccardo Pasquali
 
