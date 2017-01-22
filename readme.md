@@ -1,5 +1,5 @@
 # Super PowerWave Mega Arena Ultra Heroes - Extreme Edition
-
+![Game Logo](/Piano B/Assets/Images/logoiniziale.png)
 ## Global Game Jame 2017
 As you always dreamed, now you and your friends can fight with your childhood heroes using the Energy Wave, just with a tap. During the game you will be challenged with different stage and difficulties.
 ### Team *Disorganized*:
