@@ -69,6 +69,9 @@ public class GameManagerScript : Singleton<GameManagerScript>
 				s = Onda2.transform.position;
                 s.x += 0.2f;
 				Onda2.transform.position = s;
+
+				UpdateWaveFX(Onda1, false);
+				UpdateWaveFX(Onda2, false);
             }
             if (position == PlayerPosition.RIGHT)
             {
@@ -78,6 +81,9 @@ public class GameManagerScript : Singleton<GameManagerScript>
 				s = Onda1.transform.position;
                 s.x -= 0.2f;
 				Onda1.transform.position = s;
+
+				UpdateWaveFX(Onda1, false);
+				UpdateWaveFX(Onda2, false);
             }
 
 			if (IsPlayer1Hit())
@@ -138,6 +144,9 @@ public class GameManagerScript : Singleton<GameManagerScript>
                 s.x += 1f;
 				Onda2.transform.position = s;
 
+				UpdateWaveFX(Onda1, false);
+				UpdateWaveFX(Onda2, false);
+
                 phase = GamePhase.BATTLE;
                 Player1.GetComponent<AttackManager>().NewKey();
                 Player2.GetComponent<AttackManager>().NewKey();
@@ -161,6 +170,9 @@ public class GameManagerScript : Singleton<GameManagerScript>
 				s = Onda1.transform.position;
                 s.x -= 1f;
 				Onda1.transform.position = s;
+
+				UpdateWaveFX(Onda1, false);
+				UpdateWaveFX(Onda2, false);
 
                 phase = GamePhase.BATTLE;
                 Player1.GetComponent<AttackManager>().NewKey();
@@ -203,17 +215,27 @@ public class GameManagerScript : Singleton<GameManagerScript>
 		}
 
 		fx.SetActive (true);
-		ParticleSystem.MainModule fx_mm = fx.GetComponent<ParticleSystem> ().main;
-		//fx_mm.startSizeMultiplier = 0f;
         while (phase == GamePhase.LAUNCH)
         {
-            Vector3 s = wave.transform.position;
-			s.x += (waveSpeed * Time.deltaTime * (position == PlayerPosition.LEFT ? 1 : -1));
-			wave.transform.position = s;
-			//fx_mm.startSizeMultiplier += 0.1f;
+			Vector3 s = wave.transform.localPosition;
+			s.y += (waveSpeed * Time.deltaTime * -1);
+			wave.transform.localPosition = s;
+			UpdateWaveFX(wave, true);
             yield return null;
         }
+		UpdateWaveFX(wave, false);
     }
+
+	private void UpdateWaveFX(GameObject wave, bool launch) {
+		GameObject fx = wave.transform.GetChild (0).gameObject;
+		ParticleSystem.MainModule fx_mm = fx.GetComponent<ParticleSystem> ().main;
+		Vector3 p = wave.transform.localPosition;
+		if (launch) 
+			fx_mm.startSpeedMultiplier = 1f + (-p.y * (5.5f - 1f) / 13f);
+		else
+			fx_mm.startSpeedMultiplier = -p.y * (6f / 13f);
+		Debug.Log ("UpdateWaveFX - p.y= " + p.y + " speed= " + fx_mm.startSpeedMultiplier);
+	}
 
     public void RefreshButton()
     {
