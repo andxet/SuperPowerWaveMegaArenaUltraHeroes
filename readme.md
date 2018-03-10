@@ -26,6 +26,6 @@ As you always dreamed, now you and your friends can fight with your childhood he
 - Erik Kuli
 - Riccardo Pasquali
 
-[Global game jam site link](http://globalgamejam.org/2017/games/super-powerwave-mega-arena-ultra-heroes-extreme-edition)
+[Global game jam site link](https://globalgamejam.org/2017/games/super-powerwave-mega-arena-ultra-heroes)
 
 You can find the game in the folder "Piano B"!!
